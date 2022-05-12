@@ -2,9 +2,9 @@ function computerPlay(){
     let randomNumber=Math.random();
     let choiceElement;
     if(randomNumber < 0.3){
-        choiceElement="Paper";
+        choiceElement="paper";
     }else if(randomNumber >= 0.3 && randomNumber < 0.7){
-        choiceElement="Rock";
+        choiceElement="rock";
     }else{
         choiceElement="scissor";
     }
@@ -28,32 +28,30 @@ function playRound(playerSelection,computerPlay){
     }
 
 }
-game();
-function game(){
-    let counterPlayer=0;
-    let counterComputer=0;
-    let winnerRound;
-    for(let i =0; i<5;i++){
-        let playerSelection = prompt("Pick one:");
-        let computerSelection = computerPlay();
-        winnerRound=playRound(playerSelection,computerSelection);
-        if(winnerRound==="player"){
-            counterPlayer++;
-            console.log(`Player:${counterPlayer}`);
-            console.log(`Computer:${counterComputer}`);
-        }else if(winnerRound==="computer"){
-            counterComputer++;
-            console.log(`Player:${counterPlayer}`);
-            console.log(`Computer:${counterComputer}`);
-        }else{
-            console.log("That round was equal then nobody won point");
-        }
-    }
-    if(counterPlayer>counterComputer){
-        console.log(`Winner:Player with ${counterPlayer}`);
-        console.log(`Loser:Computer with ${counterComputer}`);
+let button = document.querySelectorAll(".button");
+for(let i = 0; i < button.length;i++){
+    button[i].addEventListener("click",choiceSelected);
+}
+function choiceSelected(){
+    userImg.replaceChildren();
+    computerImg.replaceChildren();
+    let choiceComputer=computerPlay();
+    displayChoiceImage(userImg,this.value);
+    displayChoiceImage(computerImg,choiceComputer);
+    playRound(this.value,choiceComputer);
+}
+const userImg=document.querySelector(".user-img");
+const computerImg=document.querySelector(".computer-img");
+function displayChoiceImage(typeImg,choice){
+    let img=document.createElement("img");
+    if(choice==="paper"){
+        img.src="images/paper.jpg"; 
+        typeImg.appendChild(img);
+    }else if(choice==="rock"){
+        img.src="/images/rock.png";
+        typeImg.appendChild(img);
     }else{
-        console.log(`Winner:Player with ${counterComputer}`);
-        console.log(`Loser:Computer with ${counterPlayer}`);
+        img.src="images/scissor.jpg";
+        typeImg.appendChild(img);
     }
 }
