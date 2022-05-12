@@ -18,19 +18,15 @@ function playRound(playerSelection,computerPlay){
     if(player1 === "paper" && player2 ==="rock" || player1 ==="rock" && player2=== "scissor" || player1 ==="scissor"&& player2=== "paper"){
         winner="player"
         console.log(`Player:You lose! ${playerSelection} beats ${computerPlay}`);
-        return winner;
+        counterUser++;
     }else if(player2 === "paper" && player1 ==="rock" || player2 ==="rock" && player1=== "scissor" || player2 ==="scissor"&& player1=== "paper"){
         winner="computer";
         console.log(`Computer:You lose! ${computerPlay} beats ${playerSelection}`);
-        return winner;
+        counterComputer++;
     }else{
         return "Nobody won!";
     }
 
-}
-let button = document.querySelectorAll(".button");
-for(let i = 0; i < button.length;i++){
-    button[i].addEventListener("click",choiceSelected);
 }
 function choiceSelected(){
     userImg.replaceChildren();
@@ -39,9 +35,28 @@ function choiceSelected(){
     displayChoiceImage(userImg,this.value);
     displayChoiceImage(computerImg,choiceComputer);
     playRound(this.value,choiceComputer);
+    updateResults();
 }
-const userImg=document.querySelector(".user-img");
-const computerImg=document.querySelector(".computer-img");
+function updateResults(){
+    let currentCounterUser = document.querySelector(".counter-user");
+    let currentCounterComputer = document.querySelector(".counter-computer");
+    currentCounterUser.textContent=counterUser;
+    currentCounterComputer.textContent=counterComputer;
+    showWinnerMessage();
+}
+//there is a problem with this because depends so much with global variables
+//And global variables is not recommended to use.Then search later some better way to refactor the code 
+function showWinnerMessage(){
+    if(counterComputer ===5){
+        counterContainer.replaceChildren();
+        showWinner.textContent="YOOOO  YOU ARE THER WINNER COMPUTER!!! CONGRATS!!";
+        counterContainer.appendChild(showWinner);
+    }else if(counterUser===5){
+        counterContainer.replaceChildren()
+        showWinner.textContent="YOOOO  YOU ARE THER WINNER USER!!! CONGRATS!!";
+        counterContainer.appendChild(showWinner);
+    }
+}
 function displayChoiceImage(typeImg,choice){
     let img=document.createElement("img");
     if(choice==="paper"){
@@ -55,3 +70,13 @@ function displayChoiceImage(typeImg,choice){
         typeImg.appendChild(img);
     }
 }
+const button = document.querySelectorAll(".button");
+for(let i = 0; i < button.length;i++){
+    button[i].addEventListener("click",choiceSelected);
+}
+const userImg=document.querySelector(".user-img");
+const computerImg=document.querySelector(".computer-img");
+let counterComputer = 0;
+let counterUser =0;
+let showWinner = document.createElement("h1");
+const counterContainer = document.querySelector(".counter-container");
