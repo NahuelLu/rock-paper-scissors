@@ -38,24 +38,26 @@ function choiceSelected(){
     updateResults();
 }
 function updateResults(){
-    let currentCounterUser = document.querySelector(".counter-user");
-    let currentCounterComputer = document.querySelector(".counter-computer");
+    updateCounters();
+    showWinnerMessage();
+}
+function updateCounters(){
     currentCounterUser.textContent=counterUser;
     currentCounterComputer.textContent=counterComputer;
-    showWinnerMessage();
 }
 //there is a problem with this because depends so much with global variables
 //And global variables is not recommended to use.Then search later some better way to refactor the code 
 function showWinnerMessage(){
     if(counterComputer ===5){
-        counterContainer.replaceChildren();
-        showWinner.textContent="YOOOO  YOU ARE THER WINNER COMPUTER!!! CONGRATS!!";
-        counterContainer.appendChild(showWinner);
+        showWinnerMessageTo("COMPUTER");
     }else if(counterUser===5){
-        counterContainer.replaceChildren()
-        showWinner.textContent="YOOOO  YOU ARE THER WINNER USER!!! CONGRATS!!";
-        counterContainer.appendChild(showWinner);
+        showWinnerMessageTo("USER");
     }
+}
+function showWinnerMessageTo(type){
+    counterContainer.replaceChildren();
+    showWinner.textContent=`YOOOO  YOU ARE THER WINNER ${type}!!! CONGRATS!!`;
+    counterContainer.appendChild(showWinner);
 }
 function displayChoiceImage(typeImg,choice){
     let img=document.createElement("img");
@@ -76,6 +78,8 @@ for(let i = 0; i < button.length;i++){
 }
 const userImg=document.querySelector(".user-img");
 const computerImg=document.querySelector(".computer-img");
+const currentCounterUser = document.querySelector(".counter-user");
+const currentCounterComputer = document.querySelector(".counter-computer");
 let counterComputer = 0;
 let counterUser =0;
 let showWinner = document.createElement("h1");
